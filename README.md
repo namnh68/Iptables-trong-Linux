@@ -46,7 +46,8 @@ Mới đầu tiên khi tìm hiểu về iptables tôi rất loạn các khái ni
 
 *Bình thường bảng nat và filter rất hay được sử dụng còn bảng mangle trong mạng soho thường ít sử dụng đến nó*
 
-##### a. Trong bảng NAT có các **chain** và có 3 chain được xây dựng sẵn trong table NAT:
+##### a. Bảng NAT
+Trong bảng NAT có các **chain** và có 3 chain được xây dựng sẵn trong table NAT:
 - **Chain** PREROUTING : đấy là chain dùng để thay đổi địa chỉ đích của gói tin và trong chain FREROUTING target(tác vụ) được sử dụng là DNAT (destination NAT):
 VD:
 ```
@@ -68,14 +69,16 @@ Câu lệnh này có ý nghĩa đổi địa chỉ nguồn đối với gói tin
 
 <img class="image__pic js-image-pic" src="http://i.imgur.com/tLbwXZg.png" alt="" id="screenshot-image">
 
-##### b. Trong bảng filter có các **chain** được xây dựng sẵn:
+##### b. Bảng filter
+Trong bảng filter có các **chain** được xây dựng sẵn:
 - **chain** INPUT: đây là chain dùng để lọc các gói tin đầu vào. Chain này là chain các gói tin bắt buộc phải đi qua để có thể được xử lý
 - **Chain** OUTPUT: đây là chain dùng để lọc các gói tin đâu ra. Chain này là chain sau khi gói tin được xử lý phải đi qua chain này để ra được bên ngoài.
 - **Chain** FORWARD : đây là chain dùng để chuyển gói tin qua lại giữa các card mạng với nhau.
 
 Các target được sử dụng trong các chain này có thể là ACCEPT (đồng ý) , DROP (xóa bỏ)
 
-##### c. Trong bảng mangle bao gồm tất cả các chain được xây dựng sẵn là: PREROUTING, POSTROUTING, INPUT, OUTPUT, FORWARD. Bảng mangle rất ít được sử dụng trong mạng SOHO nên tôi sẽ không đề cập đến (cũng một phần là tôi cũng chưa thành thạo sử dụng bảng này lắm vì nó cần chuyên sâu về gói tin TCP)
+##### c. Bảng Mangle
+Trong bảng mangle bao gồm tất cả các chain được xây dựng sẵn là: PREROUTING, POSTROUTING, INPUT, OUTPUT, FORWARD. Bảng mangle rất ít được sử dụng trong mạng SOHO nên tôi sẽ không đề cập đến (cũng một phần là tôi cũng chưa thành thạo sử dụng bảng này lắm vì nó cần chuyên sâu về gói tin TCP)
 
 OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, chain, rule, target rồi chứ. Tiếp theo để làm tốt phần iptabes nhất thiết các bạn phải hiểu **quá trình xử lý gói tin trong iptables** cụ thể là xử lý gói tin đối với quá trình NAT,FILTER,MANGLE để có thể đưa ra các luật cho gói tin
 
