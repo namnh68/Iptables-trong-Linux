@@ -5,8 +5,9 @@ Nội dung bài viết:
 
 1. Các kiến thức cần phải có khi học về iptables
 2. Phân mục rõ ràng các bảng, chain, rule trong iptables
-3. Một số target thường áp dụng
-4. Thêm chút kiến thức về tạo new chain
+3. Quá trình xử lý gói tin trong iptables
+4. Một số tùy chọn và target thường sử dụng
+5. Lời kết
 
 =====
 
@@ -80,9 +81,47 @@ OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, cha
 
 ## 3. Quá trình xử lý gói tin trong iptables:
 
-<img height="760" align="middle" width="543" src="/images/stories/iptable.jpg" alt="">
+<img style="-webkit-user-select: none" src="http://vnexperts.net/images/stories/iptable.jpg">
 
 Đây là quá trình xử lý gói tin trong iptables. Các gói tin mặc định sẽ **phải** đi qua các bảng này để hoàn thành xong một chu trình xử lý.
+
+Đầu tiên gói tin từ mạng A đi vào hệ thống firewall sẽ phải đi qua bảng Mangle với chain là PREROUTING (với mục đích để thay đôi một số thông tin của gói tin trước khi đưa qua quyết định dẫn đường) sau đó gói tin đến bảng NAT với với chain PREROUTING tại đây địa chỉ đích của gói tin có thể bị thay đổi hoặc không, qua bộ routing và sẽ quyết định xem gói tin đó thuộc firewall hay không:
+- TH1: gói tin đó là của firewall: gói tin sẽ đi qua bảng mangle và đến bản filter với chai là INPUT. Tại đây gói tin sẽ được áp dụng chính sách (rule) và ứng với mỗi rule cụ thể sẽ được áp dụng với target, sau quá trình xử lý gói tin sẽ đi đến bảng mangle tiếp đến là bảng NAT với chain OUTPUT được áp dụng một số chính sách và sau đó đi lần lượt qua các bảng magle với chain POSTROUTING cuối cùng đi đến bảng NAT với chain POSTROUTING để thay đổi địa chỉ nguồn nếu cần thiết.
+- TH2: gói tin không phải của firewall sẽ được đưa đến bảng mangle với chain FORWARD đến bảng filter với chain FORWARD.
+Đây là chain được sử dụng rất nhiều để bảo vệ người sử dụng mang trong lan với người sử dụng internet các gói tin thoải mãn các rule đặt ra mới có thể được chuyển qua giữa các card mạng với nhau, qua đó có nhiệm vụ thực hiện chính sách với người sử dụng nội bộ nhưng không cho vào internet, giới hạn thời gian,...và bảo vệ hệ thống máy chủ đối với người dung internet bên ngoài chống các kiểu tấn công. sau khi đi qua card mạng với nhau gói tin phải đi lần lượt qua bảng mangle và NAT với chain POSTROUTING để thực hiên việc chuyển đổi địa chỉ nguồn với target SNAT & MASQUERADE.
+
+## 4. Một số tùy chọn và target thường sử dụng
+
+##### a. Tùy chọn 1:
+|Tùy chọn | Ý nghĩa|
+|---------|--------|
+|-A chain rule| Thêm Rule vào chain|
+|-D [chain] [index] | Xóa rule có chỉ số trong chain đã chọn |
+|-E [chain][new chain] | đổi tên cho chain |
+|-F [chain] | Xóa tất cả các rule trong chain đã chọn, nếu ko chọn chain mặc định sẽ xóa hết rule trong tất cả các chain |
+|-L [chain] | Hiển thị danh sách tất cả các rule trong chain, nếu ko chọn chain thì mặc định nó sẽ hiện hết chain trong một table |
+|-P [chain][target] | Áp dụng chính sách đối với chain.|
+|-Z [chain] | Xóa bộ đếm của chain đi |
+|-N [name new chain] | Tạo một chain mới |
+
+##### b. Tùy chọn 2:
+| Tùy chọn | Ý nghĩa |
+|----------|---------|
+|-j [target] | dùng để chỉ rõ gói tin sau khi thoải mãn rule sẽ được nhảy đến taret để xử lý |
+|-m [match] | dùng để mở rộng rule đối với với một gói tin (*) |
+|-t [table] | dùng để chọn bảng. nếu bạn không chọn thì mặc định iptable sẽ chọn bảng filter |
+|-p [protocol] | chỉ ra gói tin thuộc loại nào: tcp, udp, icmp,... |
+
+Trên đây là các tùy chọn thường được sử dụng trong quá trình sử dụng iptables đói với firewall. Không phải ngẫu nhiên tôi lại chia thành 2  tùy chọn mà trong quá trình học và lab với iptables vô hình nó hình thành 2 phần tùy chọn có những điểm khác biệt mà tôi khó đặt tên được cho nó ý là gì.
+
+## 5. Lời kết
+Trên đây là những đúc rút của tôi sau quá trình tìm hiểu về iptables. Iptables là một mảng kiến thức khá rộng và khó. bài viết này tôi cũng chưa khai thác được bảng mangle trong iptable và các tác vụ nâng cao đối với nó, rất mong các bạn đọc và cùng chia sẻ những kiến thức về iptables.
+
+Các bạn có thể liên hệ với tôi qua skype để cùng trao đổi về iptables nói riêng và kiến thức về Linux nói chung..
+
+skype: namptit307
+
+**Note:** [Link download sách về iptales](http://it-ebooks.info/book/338/)
 
 
 
