@@ -1,6 +1,7 @@
 Iptables-trong-Linux
 ====================
-Xin chào các bạn.Tôi viết bài viết này để chia sẻ những thứ hay ho trong quá trình tìm hiểu về iptabls, và một số lưu ý trong quá trình tìm hiểu về nó:
+Xin chào các bạn.Tôi viết bài viết này để chia sẻ những điều hay ho trong quá trình tìm hiểu về iptabls, và một số lưu ý trong quá trình tìm hiểu về nó:
+Bài viết trên đây tôi hi vọng giúp các bạn có thể hình dung rõ ràng phần nào về iptables, nó sẽ là nền tảng để các bạn có thể tìm hiểu sâu hơn về nó..
 Nội dung bài viết:
 
 
