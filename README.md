@@ -3,6 +3,35 @@ Iptables-trong-Linux
 Xin chào các bạn.Tôi viết bài viết này để chia sẻ những thứ hay ho trong quá trình tìm hiểu về iptabls, và một số lưu ý trong quá trình tìm hiểu về nó:
 Nội dung bài viết:
 
+
+- [Mục lục](#undefined)
+		
+  - [1. Các kiến thức cần phải có:](#user-content-1-c%C3%A1c-ki%E1%BA%BFn-th%E1%BB%A9c-c%E1%BA%A7n-ph%E1%BA%A3i-c%C3%B3)
+				
+     - [a. NAT (network address translation):](#user-content-a-nat-network-address-translation)
+			
+     - [b. Filter gói tin:](#user-content-b-filter-g%C3%B3i-tin)
+				
+     - [c. Gói tin:](#user-content-c-g%C3%B3i-tin)
+		
+   - [2. Phân mục rõ ràng các khái niệm bảng, chain, rule:](#user-content-2-ph%C3%A2n-m%E1%BB%A5c-r%C3%B5-r%C3%A0ng-c%C3%A1c-kh%C3%A1i-ni%E1%BB%87m-b%E1%BA%A3ng-chain-rule)
+				
+     - [a. Bảng NAT](#user-content-a-b%E1%BA%A3ng-nat)
+				
+     - [b. Bảng filter](#user-content-b-b%E1%BA%A3ng-filter)
+				
+     - [c. Bảng Mangle](#user-content-c-b%E1%BA%A3ng-mangle)
+		
+   - [3. Quá trình xử lý gói tin trong iptables:](#user-content-3-qu%C3%A1-tr%C3%ACnh-x%E1%BB%AD-l%C3%BD-g%C3%B3i-tin-trong-iptables)
+		
+   - [4. Một số tùy chọn và target thường sử dụng](#user-content-4-m%E1%BB%99t-s%E1%BB%91-t%C3%B9y-ch%E1%BB%8Dn-v%C3%A0-target-th%C6%B0%E1%BB%9Dng-s%E1%BB%AD-d%E1%BB%A5ng)
+				
+     - [a. Tùy chọn 1:](#user-content-a-t%C3%B9y-ch%E1%BB%8Dn-1)
+				
+     - [b. Tùy chọn 2:](#user-content-b-t%C3%B9y-ch%E1%BB%8Dn-2)
+		
+   - [5. Lời kết](#user-content-5-l%E1%BB%9Di-k%E1%BA%BFt)
+
 =====
 
 ### 1. Các kiến thức cần phải có:
