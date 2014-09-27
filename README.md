@@ -30,6 +30,10 @@ root@centos:#iptables -A INPUT -p tcp -dport 80 -j ACCEPT
 ```
 Ví dụ trên cho biết diễn sự kết hợp giữa các điều kiện lại với nhau: "là gói tin tcp và địa chỉ port đích là 80"
 
+3. Gói tin: 
+Các bạn phải hiểu rõ ràng về gói tin. Ví dụ như gối với gói tin tcp thì phần tiêu đề của nó có các trường nào, ý nghĩa của các trường đó, và hiểu về port.
+
+
 ## 2. Phân mục rõ ràng các khái niệm bảng, chain, rule:
 
 Mới đầu tiên khi tìm hiểu về iptables tôi rất loạn các khái niệm này với nhau. chúng ta cần phân biệt rõ ràng các khái niệm này trước khi tìm hiểu sâu hơn về iptables
@@ -41,7 +45,7 @@ Mới đầu tiên khi tìm hiểu về iptables tôi rất loạn các khái ni
 
 *Bình thường bảng nat và filter rất hay được sử dụng còn bảng mangle trong mạng soho thường ít sử dụng đến nó*
 
-Trong bảng NAT có các **chain** và có 3 chain được xây dựng sẵn trong table NAT:
+##### a. Trong bảng NAT có các **chain** và có 3 chain được xây dựng sẵn trong table NAT:
 - **Chain** PREROUTING : đấy là chain dùng để thay đổi địa chỉ đích của gói tin và trong chain FREROUTING target(tác vụ) được sử dụng là DNAT (destination NAT):
 VD:
 ```
@@ -63,6 +67,22 @@ Câu lệnh này có ý nghĩa đổi địa chỉ nguồn đối với gói tin
 
 <img class="image__pic js-image-pic" src="http://i.imgur.com/tLbwXZg.png" alt="" id="screenshot-image">
 
+##### b. Trong bảng filter có các **chain** được xây dựng sẵn:
+- **chain** INPUT: đây là chain dùng để lọc các gói tin đầu vào. Chain này là chain các gói tin bắt buộc phải đi qua để có thể được xử lý
+- **Chain** OUTPUT: đây là chain dùng để lọc các gói tin đâu ra. Chain này là chain sau khi gói tin được xử lý phải đi qua chain này để ra được bên ngoài.
+- **Chain** FORWARD : đây là chain dùng để chuyển gói tin qua lại giữa các card mạng với nhau.
+
+Các target được sử dụng trong các chain này có thể là ACCEPT (đồng ý) , DROP (xóa bỏ)
+
+##### c. Trong bảng mangle bao gồm tất cả các chain được xây dựng sẵn là: PREROUTING, POSTROUTING, INPUT, OUTPUT, FORWARD. Bảng mangle rất ít được sử dụng trong mạng SOHO nên tôi sẽ không đề cập đến (cũng một phần là tôi cũng chưa thành thạo sử dụng bảng này lắm vì nó cần chuyên sâu về gói tin TCP)
+
+OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, chain, rule, target rồi chứ. Tiếp theo để làm tốt phần iptabes nhất thiết các bạn phải hiểu **quá trình xử lý gói tin trong iptables** cụ thể là xử lý gói tin đối với quá trình NAT,FILTER,MANGLE để có thể đưa ra các luật cho gói tin
+
+## 3. Quá trình xử lý gói tin trong iptables:
+
+<img height="760" align="middle" width="543" src="/images/stories/iptable.jpg" alt="">
+
+Đây là quá trình xử lý gói tin trong iptables. Các gói tin mặc định sẽ **phải** đi qua các bảng này để hoàn thành xong một chu trình xử lý.
 
 
 
