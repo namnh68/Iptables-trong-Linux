@@ -3,36 +3,19 @@ Iptables-trong-Linux
 Xin chào các bạn.Tôi viết bài viết này để chia sẻ những thứ hay ho trong quá trình tìm hiểu về iptabls, và một số lưu ý trong quá trình tìm hiểu về nó:
 Nội dung bài viết:
 
-- [Mục lục](#undefined)
-	- [1. Các kiến thức cân phải có:](#user-content-1-c%C3%A1c-ki%E1%BA%BFn-th%E1%BB%A9c-c%C3%A2n-ph%E1%BA%A3i-c%C3%B3)
-	- [2. Phân mục rõ ràng các khái niệm bảng, chain, rule:](#user-content-2-ph%C3%A2n-m%E1%BB%A5c-r%C3%B5-r%C3%A0ng-c%C3%A1c-kh%C3%A1i-ni%E1%BB%87m-b%E1%BA%A3ng-chain-rule)
-				
-       - [a. Bảng NAT](#user-content-a-b%E1%BA%A3ng-nat)
-			
-        - [b. Bảng filter](#user-content-b-b%E1%BA%A3ng-filter)
-				
-        - [c. Bảng Mangle](#user-content-c-b%E1%BA%A3ng-mangle)
-	- [3. Quá trình xử lý gói tin trong iptables:](#user-content-3-qu%C3%A1-tr%C3%ACnh-x%E1%BB%AD-l%C3%BD-g%C3%B3i-tin-trong-iptables)
-	- [4. Một số tùy chọn và target thường sử dụng](#user-content-4-m%E1%BB%99t-s%E1%BB%91-t%C3%B9y-ch%E1%BB%8Dn-v%C3%A0-target-th%C6%B0%E1%BB%9Dng-s%E1%BB%AD-d%E1%BB%A5ng)
-				
-        - [a. Tùy chọn 1:](#user-content-a-t%C3%B9y-ch%E1%BB%8Dn-1)
-				
-        - [b. Tùy chọn 2:](#user-content-b-t%C3%B9y-ch%E1%BB%8Dn-2)
-	- [5. Lời kết](#user-content-5-l%E1%BB%9Di-k%E1%BA%BFt)
-
 =====
 
-## 1. Các kiến thức cân phải có:
+### 1. Các kiến thức cần phải có:
 
 iptables là gì : iptables là một gói phần mềm để tạo tường lửa cho máy linux của bạn nó có các chức năng lọc gói tin, nat gói tin qua đó để giúp làm nhiệm vụ bảo mật thông tin cá nhân tránh mất mát thông tin và áp dụng nhưng chính sách đổi với người sử dụng. Vậy nat, lọc gói tin như thế nào:
 
-1. NAT (network address translation): nat là quá trình chuyển đối các port nguồn, đích, địa chỉ nguồn và địa chỉ đích của một gói tin
+##### a. NAT (network address translation): nat là quá trình chuyển đối các port nguồn, đích, địa chỉ nguồn và địa chỉ đích của một gói tin
 VD: 1 gói tin có địa chỉ đích là 192.168.1.2:22 và nguồn là 10.0.30.100:1922. Lúc này nat có thể đổi được địa chỉ nguồn và đích của gói tin.
 Tác dụng của NAT: trong mang internet thực tế nat dùng để chuyển đổi địa chỉ prive thành địa chỉ publish để có thể đi ra được mạng internet vì trong mạng internet dung địa chỉ publish. Nó cũng có thể để giấu đi địa chỉ thật của một hệ thông server qua đó giảm thiểu được các cuộc tấn công mạng nhằm vào các hệ thống server.Một số hình ảnh của quá trình nat
 <img class="image__pic js-image-pic" src="http://i.imgur.com/icxlmIY.png" alt="" id="screenshot-image">
 *Đến đây bạn đã hiểu nôm na nat là gì chưa???:D*
 
-2. Filter gói tin: là quá trình bắt gói tin theo một số yêu cầu
+##### b. Filter gói tin: là quá trình bắt gói tin theo một số yêu cầu
 
 Quá trình bắt gói tin được diễn ra như sau: Giả sử khi một gói tin đi đến, nó có các bộ tham số như: địa chỉ nguồn, địa chỉ đích, port nguồn đích, TTL,TOS giao thức. Lúc này bộ lọc sẽ dự vào các tham số trên của gói tin để bắt gói tin đó rồi áp dụng phương pháp xử với nó.
 
@@ -42,11 +25,11 @@ root@centos:#iptables -A INPUT -p tcp -dport 80 -j ACCEPT
 ```
 Ví dụ trên cho biết diễn sự kết hợp giữa các điều kiện lại với nhau: "là gói tin tcp và địa chỉ port đích là 80"
 
-3. Gói tin: 
+##### c. Gói tin: 
 Các bạn phải hiểu rõ ràng về gói tin. Ví dụ như gối với gói tin tcp thì phần tiêu đề của nó có các trường nào, ý nghĩa của các trường đó, và hiểu về port.
 
 
-## 2. Phân mục rõ ràng các khái niệm bảng, chain, rule:
+### 2. Phân mục rõ ràng các khái niệm bảng, chain, rule:
 
 Mới đầu tiên khi tìm hiểu về iptables tôi rất loạn các khái niệm này với nhau. chúng ta cần phân biệt rõ ràng các khái niệm này trước khi tìm hiểu sâu hơn về iptables
 
@@ -93,7 +76,7 @@ Trong bảng mangle bao gồm tất cả các chain được xây dựng sẵn l
 
 OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, chain, rule, target rồi chứ. Tiếp theo để làm tốt phần iptabes nhất thiết các bạn phải hiểu **quá trình xử lý gói tin trong iptables** cụ thể là xử lý gói tin đối với quá trình NAT,FILTER,MANGLE để có thể đưa ra các luật cho gói tin
 
-## 3. Quá trình xử lý gói tin trong iptables:
+### 3. Quá trình xử lý gói tin trong iptables:
 
 <img style="-webkit-user-select: none" src="http://vnexperts.net/images/stories/iptable.jpg">
 
@@ -104,7 +87,7 @@ OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, cha
 - TH2: gói tin không phải của firewall sẽ được đưa đến bảng mangle với chain FORWARD đến bảng filter với chain FORWARD.
 Đây là chain được sử dụng rất nhiều để bảo vệ người sử dụng mang trong lan với người sử dụng internet các gói tin thoải mãn các rule đặt ra mới có thể được chuyển qua giữa các card mạng với nhau, qua đó có nhiệm vụ thực hiện chính sách với người sử dụng nội bộ nhưng không cho vào internet, giới hạn thời gian,...và bảo vệ hệ thống máy chủ đối với người dung internet bên ngoài chống các kiểu tấn công. sau khi đi qua card mạng với nhau gói tin phải đi lần lượt qua bảng mangle và NAT với chain POSTROUTING để thực hiên việc chuyển đổi địa chỉ nguồn với target SNAT & MASQUERADE.
 
-## 4. Một số tùy chọn và target thường sử dụng
+### 4. Một số tùy chọn và target thường sử dụng
 
 ##### a. Tùy chọn 1:
 |Tùy chọn | Ý nghĩa|
@@ -128,7 +111,7 @@ OK!!! Bây giờ các bạn đã phân biệt rõ ràng đươc các tables, cha
 
 Trên đây là các tùy chọn thường được sử dụng trong quá trình sử dụng iptables đói với firewall. Không phải ngẫu nhiên tôi lại chia thành 2  tùy chọn mà trong quá trình học và lab với iptables vô hình nó hình thành 2 phần tùy chọn có những điểm khác biệt mà tôi khó đặt tên được cho nó ý là gì.
 
-## 5. Lời kết
+### 5. Lời kết
 Trên đây là những đúc rút của tôi sau quá trình tìm hiểu về iptables. Iptables là một mảng kiến thức khá rộng và khó. bài viết này tôi cũng chưa khai thác được bảng mangle trong iptable và các tác vụ nâng cao đối với nó, rất mong các bạn đọc và cùng chia sẻ những kiến thức về iptables.
 
 Các bạn có thể liên hệ với tôi qua skype để cùng trao đổi về iptables nói riêng và kiến thức về Linux nói chung..
