@@ -93,7 +93,7 @@ Câu lệnh này có ý nghĩa đổi địa chỉ nguồn đối với gói tin
 
 **Note:** Các ví dụ trên đây tôi không đề cập đến các tùy chọn được sử dụng như -t , -p ,-j là gì mà tôi muốn chỉ cho các bạn thấy bao quát của NAT: Các bạn có thể hiểu nôm na là trong bảng NAT chứa 3 chain và trong mỗi trên lại có các rule và target. Các bạn có thể tham khảo thêm bảng sau đây để thấy rõ hơn sự phân cấp của nó:
 
-<img class="image__pic js-image-pic" src="http://i.imgur.com/tLbwXZg.png" alt="" id="screenshot-image">
+<img class="image__pic js-image-pic" src="http://i.imgur.com/3ITNNKF.png" alt="" id="screenshot-image">
 
 ##### b. Bảng filter
 Trong bảng filter có các **chain** được xây dựng sẵn:
